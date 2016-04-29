@@ -7,7 +7,7 @@ services:
   web:
     build:
       context: .
-    command: bundle exec rails s -b 0.0.0.0
+    command: bundle exec rake test
     volumes:
       - ./:/app
     ports:
@@ -17,7 +17,5 @@ services:
     mem_limit: 512m
     environment:
       PORT: 3000
-      DATAPI_READONLY_API_TOKEN: "ApiToken-dev-readonly"
-      DATAPI_READ_WRITE_API_TOKEN: "ApiToken-dev-read-write"
-      RACK_ENV: development
-      RAILS_ENV: development
+      RACK_ENV: test
+      RAILS_ENV: test

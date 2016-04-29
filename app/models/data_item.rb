@@ -1,0 +1,2 @@
+class DataItem < ApplicationRecord
+end

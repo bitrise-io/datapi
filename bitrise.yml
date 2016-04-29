@@ -1,0 +1,76 @@
+format_version: 1.2.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  up:
+    steps:
+    - script:
+        title: Up!
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            docker-compose up --force-recreate
+  test:
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            docker-compose --file=docker-compose.test.yml run --rm web bundle exec rake test
+  rails-console:
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            docker-compose run --rm web rails console
+  dev-console:
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            docker-compose run --rm web /bin/bash
+
+  setup:
+    steps:
+    - script:
+        title: Setup
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            docker-compose build
+            docker-compose run --rm web rake db:create
+            docker-compose run --rm web rake db:migrate
+  rebuild:
+    steps:
+    - script:
+        title: docker-compose (re)build
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            docker-compose build --no-cache
+
+  # ---------------------------------------
+  # --- Deploy
+  heroku_create_app:
+    description: |-
+      Creates a Heroku app, and adds the
+      Hobby Dev (free) Heroku PostgreSQL addon to it.
+    envs:
+    # define in .bitrise.secrets.yml
+    - HEROKU_APP_NAME: $HEROKU_APP_NAME
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            heroku apps:create "$HEROKU_APP_NAME"
+            heroku addons:create heroku-postgresql:hobby-dev
