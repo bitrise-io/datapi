@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  data:
+    sample_data: 'one'
+  typeid: MyString
+  generated_at: 2016-04-29 12:41:22
+
+two:
+  data:
+    sample_data: 'two'
+  typeid: MyString
+  generated_at: 2016-04-29 12:41:22
