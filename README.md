@@ -7,13 +7,10 @@ _This is a **Rails 5 (beta), API-only** application._
 
 ## TODO
 
-* Deploy to Heroku
-  * Pipeline
-* CI & CD
-* create releases with `releasman`
 * cleanup old entries
   * make this configurable
   * auto-register the Heroku Scheduler addon at `bitrise run create..`
+* create releases with `releasman`
 * Review this whole README
 
 
@@ -76,7 +73,20 @@ curl -H "Authorization: Token token=ApiToken-dev" http://localhost:3000/data/tes
 
 * `git clone` the code - either the official code or your own fork
 * `cd` into the source code directory
+
+Automatic way, with `bitrise`:
+
+```
+bitrise run heroku_create_app
+```
+
+Manual way:
+
 * `heroku create`
+* `heroku addons:create heroku-postgresql:hobby-dev`
+
+Once the heroku app is ready:
+
 * Set the API Tokens to any value you want to use - you can change these later too, any time you want to:
   * `heroku config:set DATAPI_READONLY_API_TOKEN=Xyz DATAPI_READ_WRITE_API_TOKEN=Abc`
 * `git push heroku master`
