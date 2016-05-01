@@ -12,6 +12,8 @@ workflows:
             set -ex
             docker-compose up --force-recreate
   test:
+    before_run:
+    - setup
     steps:
     - script:
         inputs:
