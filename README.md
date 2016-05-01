@@ -90,6 +90,7 @@ Once the heroku app is ready:
 * Set the API Tokens to any value you want to use - you can change these later too, any time you want to:
   * `heroku config:set DATAPI_READONLY_API_TOKEN=Xyz DATAPI_READ_WRITE_API_TOKEN=Abc`
 * `git push heroku master`
+* `heroku run rake db:migrate`
 * `heroku ps:scale web=1`
 
 Done. Your DatAPI server is now running on Heroku.
