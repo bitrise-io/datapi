@@ -81,3 +81,4 @@ workflows:
             set -ex
             heroku apps:create "$HEROKU_APP_NAME"
             heroku addons:create heroku-postgresql:hobby-dev
+            heroku addons:create scheduler:standard

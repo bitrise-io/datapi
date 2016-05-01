@@ -84,6 +84,7 @@ Manual way:
 
 * `heroku create`
 * `heroku addons:create heroku-postgresql:hobby-dev`
+* `heroku addons:create scheduler:standard`
 
 Once the heroku app is ready:
 
