@@ -5,7 +5,7 @@ FROM ruby:2.3.1
 # --- Base pre-installed tools
 RUN apt-get update -qq
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install wget
+# RUN DEBIAN_FRONTEND=noninteractive apt-get -y install wget
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential libpq-dev
 # RUN DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev
 
