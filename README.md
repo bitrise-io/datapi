@@ -11,13 +11,7 @@ _This is a **Rails 5 (beta), API-only** application._
   * make this configurable
   * auto-register the Heroku Scheduler addon at `bitrise run create..`
 - [ ] Review this whole README
-- [ ] Add linter tools
-  - ruby:
-    - [x] [rubocop](https://github.com/bbatsov/rubocop)
-    - [x] __WEB__ [brakeman](https://github.com/presidentbeef/brakeman)
 - [ ] Use [releaseman](https://github.com/bitrise-tools/releaseman) to automate the release and CHANGELOG generation
-- [ ] Add a log monitoring to the project
-  - logentries
 
 
 ## API
