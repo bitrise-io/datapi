@@ -1,0 +1,11 @@
+Metrics/LineLength:
+  Enabled: false
+AllCops:
+  Exclude:
+    - db/**/*
+    - Gemfile
+    - tmp/**/*
+    - bin/**/*
+    - vendor/**/*
+    - scripts/**/*
+    - config/**/*

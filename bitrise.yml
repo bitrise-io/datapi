@@ -21,6 +21,8 @@ workflows:
             #!/bin/bash
             set -ex
             docker-compose --file=docker-compose.test.yml run --rm web bundle exec rake test
+            docker-compose --file=docker-compose.test.yml run --rm web bundle exec rubocop --rails
+            docker-compose --file=docker-compose.test.yml run --rm web bundle exec brakeman --exit-on-warn --run-all-checks
   rails-console:
     steps:
     - script:

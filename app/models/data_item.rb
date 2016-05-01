@@ -1,2 +1,3 @@
+#
 class DataItem < ApplicationRecord
 end

@@ -1,3 +1,4 @@
+#
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
@@ -13,18 +14,18 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_readonly_token
-    authenticate_with_http_token do |token, options|
+    authenticate_with_http_token do |token, _|
       token == Rails.application.secrets.datapi_readonly_api_token
     end
   end
 
   def authenticate_read_write_token
-    authenticate_with_http_token do |token, options|
+    authenticate_with_http_token do |token, _|
       token == Rails.application.secrets.datapi_read_write_api_token
     end
   end
 
-  def render_unauthorized(realm = "Application")
-    render json: {error_message: 'Bad credentials'}, status: :unauthorized
+  def render_unauthorized
+    render json: { error_message: 'Bad credentials' }, status: :unauthorized
   end
 end
