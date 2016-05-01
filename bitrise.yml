@@ -47,6 +47,9 @@ workflows:
             #!/bin/bash
             set -ex
             docker-compose build
+            # boot up the DB container
+            docker-compose run --rm web pwd && sleep 5
+            #
             docker-compose run --rm web rake db:create
             docker-compose run --rm web rake db:migrate
   rebuild:
