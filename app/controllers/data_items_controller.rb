@@ -5,6 +5,14 @@ class DataItemsController < ApplicationController
 
   def list_by_typeid
     items = DataItem.where(typeid: params['typeid'])
+    if params[:generated_after]
+      items = items.where('generated_at > ?', params[:generated_after])
+    end
+    if params[:generated_before]
+      items = items.where('generated_at < ?', params[:generated_before])
+    end
+    items = items.order(generated_at: :asc)
+
     render json: { items: items }
   end
 

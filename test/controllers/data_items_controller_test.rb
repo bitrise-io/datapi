@@ -36,4 +36,48 @@ class DataItemsControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal 200, status
   end
+
+  test 'GET with READONLY token - generated_after and generated_before filter params' do
+    generated_after = DateTime.current - 10.minutes
+    generated_before = DateTime.current - 5.minutes
+    generated_at_ok_test = generated_after + 1.minute
+    data_item_gen_before_range = DataItem.create(typeid: 'typeid-test', generated_at: generated_after - 1.minute, data: { 'sample' => 'after' })
+    data_item_ok_test = DataItem.create(typeid: 'typeid-test', generated_at: generated_at_ok_test, data: { 'sample' => 'ok' })
+    data_item_gen_after_range = DataItem.create(typeid: 'typeid-test', generated_at: generated_before + 1.minute, data: { 'sample' => 'before' })
+
+    # no filter at all
+    get '/data/typeid-test',
+        headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" }
+
+    assert_equal 200, status
+    expected_response_body = { items: [data_item_gen_before_range, data_item_ok_test, data_item_gen_after_range] }
+    assert_equal expected_response_body.to_json, response.body
+
+    # both after & before filters - full range filter
+    get '/data/typeid-test',
+        headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" },
+        params: { generated_after: generated_after, generated_before: generated_before }
+
+    assert_equal 200, status
+    expected_response_body = { items: [data_item_ok_test] }
+    assert_equal expected_response_body.to_json, response.body
+
+    # no `generated_after`
+    get '/data/typeid-test',
+        headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" },
+        params: { generated_before: generated_before }
+
+    assert_equal 200, status
+    expected_response_body = { items: [data_item_gen_before_range, data_item_ok_test] }
+    assert_equal expected_response_body.to_json, response.body
+
+    # no `generated_before`
+    get '/data/typeid-test',
+        headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" },
+        params: { generated_after: generated_after }
+
+    assert_equal 200, status
+    expected_response_body = { items: [data_item_ok_test, data_item_gen_after_range] }
+    assert_equal expected_response_body.to_json, response.body
+  end
 end
