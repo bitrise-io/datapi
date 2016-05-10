@@ -38,8 +38,8 @@ class DataItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'GET with READONLY token - generated_after and generated_before filter params' do
-    generated_after = DateTime.current - 10.minutes
-    generated_before = DateTime.current - 5.minutes
+    generated_after = Time.now.utc - 10.minutes
+    generated_before = Time.now.utc - 5.minutes
     generated_at_ok_test = generated_after + 1.minute
     data_item_gen_before_range = DataItem.create(typeid: 'typeid-test', generated_at: generated_after - 1.minute, data: { 'sample' => 'after' })
     data_item_ok_test = DataItem.create(typeid: 'typeid-test', generated_at: generated_at_ok_test, data: { 'sample' => 'ok' })
@@ -56,7 +56,7 @@ class DataItemsControllerTest < ActionDispatch::IntegrationTest
     # both after & before filters - full range filter
     get '/data/typeid-test',
         headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" },
-        params: { generated_after: generated_after, generated_before: generated_before }
+        params: { generated_after: generated_after.to_i, generated_before: generated_before.to_i }
 
     assert_equal 200, status
     expected_response_body = { items: [data_item_ok_test] }
@@ -65,7 +65,7 @@ class DataItemsControllerTest < ActionDispatch::IntegrationTest
     # no `generated_after`
     get '/data/typeid-test',
         headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" },
-        params: { generated_before: generated_before }
+        params: { generated_before: generated_before.to_i }
 
     assert_equal 200, status
     expected_response_body = { items: [data_item_gen_before_range, data_item_ok_test] }
@@ -74,7 +74,7 @@ class DataItemsControllerTest < ActionDispatch::IntegrationTest
     # no `generated_before`
     get '/data/typeid-test',
         headers: { 'Authorization' => "Token token=#{Rails.application.secrets.datapi_readonly_api_token}" },
-        params: { generated_after: generated_after }
+        params: { generated_after: generated_after.to_i }
 
     assert_equal 200, status
     expected_response_body = { items: [data_item_ok_test, data_item_gen_after_range] }

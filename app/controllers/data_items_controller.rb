@@ -6,10 +6,18 @@ class DataItemsController < ApplicationController
   def list_by_typeid
     items = DataItem.where(typeid: params['typeid'])
     if params[:generated_after]
-      items = items.where('generated_at > ?', params[:generated_after])
+      generated_after = params[:generated_after]
+      if generated_after.is_a? String
+        generated_after = Time.at(generated_after.to_i).utc.to_datetime
+      end
+      items = items.where('generated_at > ?', generated_after)
     end
     if params[:generated_before]
-      items = items.where('generated_at < ?', params[:generated_before])
+      generated_before = params[:generated_before]
+      if generated_before.is_a? String
+        generated_before = Time.at(generated_before.to_i).utc.to_datetime
+      end
+      items = items.where('generated_at < ?', generated_before)
     end
     items = items.order(generated_at: :asc)
 

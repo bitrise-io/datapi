@@ -2,6 +2,8 @@ Metrics/LineLength:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false
+Metrics/MethodLength:
+  Enabled: false
 AllCops:
   Exclude:
     - db/**/*
