@@ -7,9 +7,6 @@ _This is a **Rails 5 (beta), API-only** application._
 
 ## TODO
 
-- [ ] cleanup old entries
-  * make this configurable
-  * auto-register the Heroku Scheduler addon at `bitrise run create..`
 - [ ] Review this whole README
 - [ ] Use [releaseman](https://github.com/bitrise-tools/releaseman) to automate the release and CHANGELOG generation
 
@@ -99,3 +96,28 @@ Done. Your DatAPI server is now running on Heroku.
 You can open it with `heroku open` - opening the root URL of the server
 should present a JSON data, with a welcome message
 and some information about the server & environment.
+
+
+## Utility features
+
+### Cleanup old data
+
+`datapi` has a built in "cleanup" `rake` task, which you can use for removing old
+data from the database.
+
+To remove data items generated 30 days ago and before that (based on the `generated_at` attribute
+of the data item) you can run:
+
+```
+rake cleanup:data_items_older_than_days[30]
+```
+
+You can automate the cleanup on **Heroku** by:
+
+1. add the `Heroku Scheduler` add-on on Heroku (if you created your app with `bitrise run heroku_create_app`
+    or by following the *Deploy to Heroku* guide above then you should already have this add-on attached
+    to the app)
+2. open it (click on the `Heroku Scheduler` add-on on your app's Heroku page)
+3. click "Add new job"
+4. specify the rake command, e.g. `rake cleanup:data_items_older_than_days[30]` and the frequency
+    (if you use the `..._older_than_days` cleanup task then most likely Daily is sufficient for the frequency).
