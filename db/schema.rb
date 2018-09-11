@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429124122) do
+ActiveRecord::Schema.define(version: 2016_04_29_124122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "data_items", force: :cascade do |t|
-    t.jsonb    "data",         null: false
-    t.string   "typeid",       null: false
+  create_table "data_items", id: :serial, force: :cascade do |t|
+    t.jsonb "data", null: false
+    t.string "typeid", null: false
     t.datetime "generated_at", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["generated_at"], name: "index_data_items_on_generated_at", using: :btree
-    t.index ["typeid"], name: "index_data_items_on_typeid", using: :btree
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["generated_at"], name: "index_data_items_on_generated_at"
+    t.index ["typeid"], name: "index_data_items_on_typeid"
   end
 
 end

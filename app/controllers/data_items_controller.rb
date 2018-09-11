@@ -1,4 +1,6 @@
-#
+# frozen_string_literal: true
+
+# DataItemsController ...
 class DataItemsController < ApplicationController
   before_action :authenticate_by_readonly_api_token, except: [:create_by_typeid]
   before_action :authenticate_by_read_write_api_token, only: [:create_by_typeid]
