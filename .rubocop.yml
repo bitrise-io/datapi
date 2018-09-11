@@ -15,3 +15,5 @@ AllCops:
     - vendor/**/*
     - scripts/**/*
     - config/**/*
+    - config.ru
+    - Rakefile

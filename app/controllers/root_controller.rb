@@ -1,4 +1,6 @@
-#
+# frozen_string_literal: true
+
+# RootController ...
 class RootController < ApplicationController
   def index
     welcome_msg = 'Welcome to DatAPI! You can read more about the project at: https://github.com/bitrise-tools/datapi'
